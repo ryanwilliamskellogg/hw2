@@ -1,9 +1,9 @@
 class CreateRoles < ActiveRecord::Migration[7.1]
   def change
     create_table :roles do |t|
-      t.string "Character name"
-      t.references "Movie"
-      t.references "Actor"
+      t.string "character_name"
+      t.references "movie"
+      t.references "actor"  
 
       t.timestamps
     end

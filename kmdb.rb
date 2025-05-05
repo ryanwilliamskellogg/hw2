@@ -81,19 +81,62 @@ Actor.destroy_all
 Role.destroy_all
 
 # Generate models and tables, according to the domain model.
-# TODO!
+# Done
 
 # Insert data into the database that reflects the sample data shown above.
 # Do not use hard-coded foreign key IDs.
-# TODO!
+
+# Studios
+warner_bros = Studio.create({"name" => "Warner Bros."})
+
+# Movies
+batman_begins = Movie.create({"title" => "Batman Begins", "year_released" => 2005, "rating" => "PG-13", "studio_id" => warner_bros.id})
+dark_knight = Movie.create({"title" => "The Dark Knight", "year_released" => 2008, "rating" => "PG-13", "studio_id" => warner_bros.id})
+dark_knight_rises = Movie.create({"title" => "The Dark Knight Rises", "year_released" => 2012, "rating" => "PG-13", "studio_id" => warner_bros.id})
+
+# Actors
+bale = Actor.create({"name" => "Christian Bale"})
+caine = Actor.create({"name" => "Michael Caine"})
+neeson = Actor.create({"name" => "Liam Neeson"})
+holmes = Actor.create({"name" => "Katie Holmes"})
+oldman = Actor.create({"name" => "Gary Oldman"})
+ledger = Actor.create({"name" => "Heath Ledger"})
+eckhart = Actor.create({"name" => "Aaron Eckhart"})
+gyllenhaal = Actor.create({"name" => "Maggie Gyllenhaal"})
+hardy = Actor.create({"name" => "Tom Hardy"})
+gordon_levitt = Actor.create({"name" => "Joseph Gordon-Levitt"})
+hathaway = Actor.create({"name" => "Anne Hathaway"})
+
+# Roles
+Role.create({"movie_id" => batman_begins.id, "actor_id" => bale.id, "character_name" => "Bruce Wayne"})
+Role.create({"movie_id" => batman_begins.id, "actor_id" => caine.id, "character_name" => "Alfred"})
+Role.create({"movie_id" => batman_begins.id, "actor_id" => neeson.id, "character_name" => "Ra's Al Ghul"})
+Role.create({"movie_id" => batman_begins.id, "actor_id" => holmes.id, "character_name" => "Rachel Dawes"})
+Role.create({"movie_id" => batman_begins.id, "actor_id" => oldman.id, "character_name" => "Commissioner Gordon"})
+
+Role.create({"movie_id" => dark_knight.id, "actor_id" => bale.id, "character_name" => "Bruce Wayne"})
+Role.create({"movie_id" => dark_knight.id, "actor_id" => ledger.id, "character_name" => "Joker"})
+Role.create({"movie_id" => dark_knight.id, "actor_id" => eckhart.id, "character_name" => "Harvey Dent"})
+Role.create({"movie_id" => dark_knight.id, "actor_id" => caine.id, "character_name" => "Alfred"})
+Role.create({"movie_id" => dark_knight.id, "actor_id" => gyllenhaal.id, "character_name" => "Rachel Dawes"})
+
+Role.create({"movie_id" => dark_knight_rises.id, "actor_id" => bale.id, "character_name" => "Bruce Wayne"})
+Role.create({"movie_id" => dark_knight_rises.id, "actor_id" => oldman.id, "character_name" => "Commissioner Gordon"})
+Role.create({"movie_id" => dark_knight_rises.id, "actor_id" => hardy.id, "character_name" => "Bane"})
+Role.create({"movie_id" => dark_knight_rises.id, "actor_id" => gordon_levitt.id, "character_name" => "John Blake"})
+Role.create({"movie_id" => dark_knight_rises.id, "actor_id" => hathaway.id, "character_name" => "Selina Kyle"})
 
 # Prints a header for the movies output
 puts "Movies"
 puts "======"
 puts ""
 
-# Query the movies data and loop through the results to display the movies output.
-# TODO!
+# Query the movies data and loop through the results to display the movies output
+movies = Movie.all
+for movie in movies
+  studio = Studio.find_by({"id" => movie["studio_id"]})
+  puts "#{movie["title"].ljust(23)} #{movie["year_released"]}   #{movie["rated"]}  #{studio["name"]}"
+end
 
 # Prints a header for the cast output
 puts ""
@@ -101,5 +144,11 @@ puts "Top Cast"
 puts "========"
 puts ""
 
-# Query the cast data and loop through the results to display the cast output for each movie.
-# TODO!
+# Query the cast data and loop through the results to display the cast output for each movie
+roles = Role.all
+for role in roles
+  movie = Movie.find_by({"id" => role["movie_id"]})
+  actor = Actor.find_by({"id" => role["actor_id"]})
+  puts "#{movie["title"].ljust(23)} #{actor["name"].ljust(22)} #{role["character_name"]}"
+end
+
