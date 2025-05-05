@@ -81,7 +81,11 @@ Actor.destroy_all
 Role.destroy_all
 
 # Generate models and tables, according to the domain model.
-# Done
+# rails generate model Studio t.string "name"
+# rails generate model Movie t.string "title" t.integer "year_released" t.string "rating" t.references "studio"
+# rails generate model Actor t.string "name"
+# rails generate model Role t.string "character_name" t.references "movie" t.references "actor"
+# rails db:migrate
 
 # Insert data into the database that reflects the sample data shown above.
 # Do not use hard-coded foreign key IDs.
@@ -138,6 +142,8 @@ for movie in movies
   puts "#{movie["title"].ljust(23)} #{movie["year_released"]}   #{movie["rated"]}  #{studio["name"]}"
 end
 
+# Used ChatGPT for ljust command to fix spacing issues and match format in the output example. 
+
 # Prints a header for the cast output
 puts ""
 puts "Top Cast"
@@ -151,4 +157,6 @@ for role in roles
   actor = Actor.find_by({"id" => role["actor_id"]})
   puts "#{movie["title"].ljust(23)} #{actor["name"].ljust(22)} #{role["character_name"]}"
 end
+
+# Used ChatGPT for ljust command to fix spacing issues and match format in the output example.
 
